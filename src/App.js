@@ -8,19 +8,26 @@
 
 import { useState } from 'react';
 import BookCreate from './components/BookCreate';
-// import BookList from './components/BookList';
+import BookList from './components/BookList';
 
 function App() {
     const [books, setBooks] = useState([]);  
     
-    // 🀰🀰🀰 Create Book 🀰🀰🀰 
-    // we call "create" function every time the user types in something in the input in "BookCreate" component and submits.
-    const create = (title) => { // title -> is what user enters in the input.
-    console.log("Need to add book with the title of", title)
+    // 🀰🀰🀰🀰🀰 Create Book 🀰🀰🀰🀰🀰 
+    const create = (title) => { // title is what the user enters in the <input>.
+    const updatedBooks = [
+        ...books,
+        { id: Math.round(Math.random() * 999),
+        title: title }];
+    setBooks(updatedBooks);
     }
 
+
     return (
+        <div className="app">
         <BookCreate onCreate={create}/>
+        <BookList allBooks={books} />
+        </div>
     )
     
 }
