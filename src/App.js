@@ -15,18 +15,26 @@ function App() {
     
     // 🀰🀰🀰🀰🀰 Create Book 🀰🀰🀰🀰🀰 
     const create = (title) => { // title is what the user enters in the <input>.
-    const updatedBooks = [
+    const createdBooks = [
         ...books,
         { id: Math.round(Math.random() * 999),
         title: title }];
-    setBooks(updatedBooks);
+    setBooks(createdBooks);
     }
+
+    // 🀰🀰🀰 Delete Book 🀰🀰🀰 
+    const deleteBookById = (id) => {
+        const deletedBooks = books.filter((book) => {
+            return book.id !== id;
+        })
+        setBooks(deletedBooks);
+    };
 
 
     return (
         <div className="app">
         <BookCreate onCreate={create}/>
-        <BookList allBooks={books} />
+        <BookList allBooks={books} onDelete={deleteBookById} />
         </div>
     )
     
