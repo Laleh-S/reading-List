@@ -22,7 +22,7 @@ function App() {
     setBooks(createdBooks);
     }
 
-    // 🀰🀰🀰 Delete Book 🀰🀰🀰 
+    // 🀰🀰🀰🀰🀰 Delete Book 🀰🀰🀰🀰🀰 
     const deleteBookById = (id) => {
         const deletedBooks = books.filter((book) => {
             return book.id !== id;
@@ -31,10 +31,21 @@ function App() {
     };
 
 
+    // 🀰🀰🀰🀰🀰 Edit Book 🀰🀰🀰🀰🀰 
+    const editBookById = (id, newTitle) => {
+        const updatedBooks = books.map((book) => {
+            if (book.id === id) {
+                return { ...books, title: newTitle };
+            }; 
+            return book;
+        });
+        setBooks(updatedBooks);
+    };
+
     return (
         <div className="app">
         <BookCreate onCreate={create}/>
-        <BookList allBooks={books} onDelete={deleteBookById} />
+        <BookList allBooks={books} onDelete={deleteBookById} onEdit={editBookById} />
         </div>
     )
     

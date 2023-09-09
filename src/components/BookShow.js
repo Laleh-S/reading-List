@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BookEdit from "./BookEdit";
 
-function BookShow({ singleBook, onDelete }) {
+function BookShow({ singleBook, onDelete, onEdit }) {
     const [showEdit, setShowEdit] = useState(false);
 
     const handleDeleteClick = () => {
@@ -12,9 +12,14 @@ function BookShow({ singleBook, onDelete }) {
         setShowEdit(!showEdit);
     };
 
+    const handleSubmit = (id, newTitle) => {
+        setShowEdit(false);
+        onEdit(id, newTitle)
+    };
+
     let content = <h3>{singleBook.title}</h3>; // This shows book title by default. 
     if(showEdit) {   // if showEdit is true, we don't display the title and instead we show the <BookEdit /> 
-        content = <BookEdit />;
+        content = <BookEdit onSubmit={handleSubmit} singleBook={singleBook} />;
     }
 
     return (
