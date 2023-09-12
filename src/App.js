@@ -7,20 +7,25 @@
 // When book state updates, the App components and all its children rerender and the childrens recieve the updated verion of the 'books' 
 
 import { useState } from 'react';
+import axios from 'axios';
 import BookCreate from './components/BookCreate';
 import BookList from './components/BookList';
+
 
 function App() {
     const [books, setBooks] = useState([]);  
     
     // 🀰🀰🀰🀰🀰 Create Book 🀰🀰🀰🀰🀰 
-    const create = (title) => { // title is what the user enters in the <input>.
-    const createdBooks = [
+    const createBook = async (title) => { // title is what the user enters in the <input>.
+        const response = await axios.post('http://localhost:3001/books', {
+        title: title
+    });
+        const createdBooks = [
         ...books,
-        { id: Math.round(Math.random() * 999),
-        title: title }];
+        response.data
+    ];
     setBooks(createdBooks);
-    }
+    };
 
     // 🀰🀰🀰🀰🀰 Delete Book 🀰🀰🀰🀰🀰 
     const deleteBookById = (id) => {
@@ -45,7 +50,7 @@ function App() {
     return (
         <div className="app">
         <h1>My Reading List</h1>
-        <BookCreate onCreate={create}/>
+        <BookCreate onCreate={createBook}/>
         <BookList allBooks={books} onDelete={deleteBookById} onEdit={editBookById} />
         </div>
     )
