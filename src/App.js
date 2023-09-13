@@ -6,7 +6,7 @@
 // Then the text title moves up to App component inside 'create' function and in there we can use the input text to update 'books'state
 // When book state updates, the App components and all its children rerender and the childrens recieve the updated verion of the 'books' 
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookCreate from './components/BookCreate';
 import BookList from './components/BookList';
@@ -15,6 +15,19 @@ import BookList from './components/BookList';
 function App() {
     const [books, setBooks] = useState([]);  
     
+     // 🀰🀰🀰🀰🀰 Get all the Books 🀰🀰🀰🀰🀰 
+    const fetchBooks = async() => {
+        const response = await axios.get('http://localhost:3001/books');
+
+        setBooks(response.data)
+    };
+
+    // [] means the function is going to get called once after App component is rendered for the first time and it never gets called again.
+    useEffect(() => {
+        fetchBooks()
+    }, []); 
+    
+
     // 🀰🀰🀰🀰🀰 Create Book 🀰🀰🀰🀰🀰 
     const createBook = async (title) => { // title is what the user enters in the <input>.
         const response = await axios.post('http://localhost:3001/books', {
@@ -27,8 +40,11 @@ function App() {
     setBooks(createdBooks);
     };
 
+
     // 🀰🀰🀰🀰🀰 Delete Book 🀰🀰🀰🀰🀰 
-    const deleteBookById = (id) => {
+    const deleteBookById = async (id) => {
+        await axios.delete(`http://localhost:3001/books/${id}`);
+        
         const deletedBooks = books.filter((book) => {
             return book.id !== id;
         })
@@ -37,10 +53,15 @@ function App() {
 
 
     // 🀰🀰🀰🀰🀰 Edit Book 🀰🀰🀰🀰🀰 
-    const editBookById = (id, newTitle) => {
+    const editBookById = async (id, newTitle) => {
+        const response = await axios.put(`http://localhost:3001/books/${id}`, {
+            title: newTitle
+        });
+    
         const updatedBooks = books.map((book) => {
             if (book.id === id) {
-                return { ...books, title: newTitle };
+                // ...response.data means take all the diffrent properties out of that object and add them to ...books.
+                return { ...books, ...response.data }; // responses.data is the updated book object that came back from the API.
             }; 
             return book;
         });
