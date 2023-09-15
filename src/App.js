@@ -17,7 +17,7 @@ function App() {
     // [] means the function is going to get called once after App component is rendered for the first time and it never gets called again.
     useEffect(() => {
         fetchBooks();
-    }, []); 
+    }, [fetchBooks]); 
 
     return (
         <div className="app">
