@@ -1,4 +1,5 @@
 {
+  "homepage": "https://Laleh-S.github.io/reading-list",
   "name": "reading-list",
   "version": "0.1.0",
   "private": true,
@@ -15,6 +16,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "server": "json-server -p 3001 --watch db.json",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -37,5 +40,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
   }
 }
